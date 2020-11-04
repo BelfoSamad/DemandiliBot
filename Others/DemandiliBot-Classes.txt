@@ -1,0 +1,42 @@
+- Classes:
+	- User
+		- id
+		- email
+		- password
+		- page id (for facebook)
+		- company name
+		- company cover
+		- company description
+	- Product
+		- id
+		- state (active, inactive)
+		- m.me link
+		-> Credit
+			- platform (paysera, n2, dukaskopy, payoneer, paypal)
+			- balance
+			- currency
+			- rate_change
+		-> Gif Card:
+			- platform (google play, steam...etc)
+			- balance
+			- code[]:String
+		-> Account:
+			- platform (netflix, spotify...etc)
+			- accounts[]:Object
+				- email
+				- password
+				- time
+	- Order
+		- id
+		- ssid (sender id)
+		- payment_method (CCP or BaridiMob)
+		- payment_confirmation (image)
+		- state (confirmation, pending, canceled, done)
+		- product_id
+		- email
+		-> OrderCredit
+			- balance
+		-> OrderGiftCard
+			- code[]: String
+		-> OrderAccount
+			- accounts[]: Object
