@@ -14,9 +14,9 @@ const ENV_VARS = [
 ];
 
 const IMGS = [
-    {"s": ""},
-    {"s": ""},
-    {"s": ""},
+    {"Paysera": "https://www.j2store.org/images/extensions/payment_plugins/paysera.png"},
+    {"Spotify": "https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png"},
+    {"Google Play": "https://www.pinclipart.com/picdir/middle/202-2024262_app-store-google-play-logo-vector-vector-and.png"},
 ]
 
 module.exports = {
@@ -53,7 +53,7 @@ module.exports = {
     },
 
     //TODO: Add Other Configurations
-    get getImages(platform) {
-        return IMGS[platform];
+    get getImages() {
+        return IMGS;
     }
 };

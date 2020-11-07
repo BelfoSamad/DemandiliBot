@@ -27,6 +27,7 @@ module.exports = class Receive {
 
     static handlePayloads(payload, user, text) {
         let responses = [];
+        let curr_order;
         switch (payload) {
             case payloads.GET_STARTED:
                 responses.push(Response.genTextMessage("Choose product to order!"));
@@ -39,7 +40,7 @@ module.exports = class Receive {
                                 details: "Balance: " + product.balance + "\n"
                                     + "Currency: " + product.currency + "\n"
                                     + "Rate Change: " + product.rate_change,
-                                image: config.getImages(product.platform),
+                                image: config.getImages()[product.platform],
                                 payload: payloads.ADD_ORDER + "-" + product.id
                             });
                             break;
@@ -47,7 +48,7 @@ module.exports = class Receive {
                             products.push({
                                 platform: product.platform,
                                 details: "Count: " + product.count,
-                                image: config.getImages(product.platform),
+                                image: config.getImages()[product.platform],
                                 payload: payloads.EXPAND_PRODUCT + "-" + product.platform
                             });
                             break;
@@ -56,14 +57,14 @@ module.exports = class Receive {
                 responses.push(Response.genProductsTemplate(products));
                 break;
             case payloads.CCP:
-                let curr_order = Order.getCurrOrder(user.id);
-                curr_order.setPaymentMethod("CCP");
+                curr_order = Order.getCurrOrder(user.psid);
+                Order.setPaymentMethod(curr_order.id, "CCP");
                 responses.push(Response.genTextMessage("Send money to this ccp: 123456 and send image confirmarion of the receipt, if you need more infos check the link https://www.facebook.com"));
                 response.push(Response.genTextMessage("Please send the confirmation image"));
                 break;
             case payloads.BMOB:
-                let curr_order = Order.getCurrOrder(user.id);
-                curr_order.setPaymentMethod("Baridimob");
+                curr_order = Order.getCurrOrder(user.psid);
+                Order.setPaymentMethod(curr_order.id, "Baridimob");
                 responses.push(Response.genTextMessage("Send money to this baridimob: 123456 and send image confirmarion of the receipt, if you need more infos check the link https://www.facebook.com"));
                 response.push(Response.genTextMessage("Please send the confirmation image"));
                 break;
@@ -81,7 +82,7 @@ module.exports = class Receive {
                                         platform: product.platform,
                                         details: "Balance: " + product.balance + "\n"
                                             + "Count: " + product.codes.length,
-                                        image: config.getImages(product.platform),
+                                        image: config.getImages()[product.platform],
                                         payload: payloads.ADD_ORDER + "-" + product.id
                                     });
                                     break;
@@ -90,7 +91,7 @@ module.exports = class Receive {
                                         platform: product.platform,
                                         details: "Months: " + product.time + "\n"
                                         + "Count: " + product.accounts.length,
-                                        image: config.getImages(product.platform),
+                                        image: config.getImages()[product.platform],
                                         payload: payloads.ADD_ORDER + "-" + product.id
                                     });
                                     break;
@@ -99,7 +100,7 @@ module.exports = class Receive {
                         responses.push(Response.genProductsTemplate(products));
                         break;
                     case payloads.ADD_ORDER:
-                        Order.initOrder(user.id, data);
+                        Order.initOrder(user.psid, data);
                         let product = Product.getProductById(data);
                         switch (product.type) {
                             case "Balance":
@@ -121,7 +122,7 @@ module.exports = class Receive {
 
     static handleTextMessages(message, user) {
         let responses = [];
-        let curr_order = Order.getCurrOrder(user.id);
+        let curr_order = Order.getCurrOrder(user.psid, message);
         switch (curr_order.state) {
             case "Info":
                 Order.setInfo(curr_order.id, message);
@@ -155,15 +156,15 @@ module.exports = class Receive {
 
     static handleAttachements(attachment, user) {
         let responses = [];
-        let curr_order = Order.getCurrOrder(user.id);
+        let curr_order = Order.getCurrOrder(user.psid, "c");
         if (curr_order.state == "Confirmation") {
             let order = Order.confirmOrder(curr_order.id, attachment);
-            let product = Product.getProductById(order.product.id);
+            let product = Product.getProductById(order.product_id);
             let receipt = {
                 platform: product.platform,
                 price: order.price,
-                image: config.getImages(product.platform),
-                recipient_name: user.last_name + " " + user.first_name,
+                image: config.getImages()[product.platform],
+                recipient_name: user.lastName + " " + user.firstName,
                 order_number: order.id,
                 payment_method: order.payment_method,
                 date: order.timestamp

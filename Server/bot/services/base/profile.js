@@ -31,7 +31,11 @@ module.exports = class Profile {
     }
 
     getGreeting() {
-        let greetings = [];
+        //TODO: Change
+        let greetings = [{
+            locale: "en_US",
+            text: "Hey What's up, welcome to the bot... it's just for testing"
+        }];
 
         /*
         for (let locale of locales) {
@@ -51,7 +55,20 @@ module.exports = class Profile {
     }
 
     getPersistentMenu() {
-        let menu = [];
+        //TODO: Change
+        let menu = [
+            {
+                locale: "en_US",
+                composer_input_disabled: false,
+                call_to_actions: [
+                    {
+                        title: "Start Over",
+                        type: "postback",
+                        payload: payloads.GET_STARTED
+                    },
+                ]
+            }
+        ];
         /*
         for (let locale of locales) {
             let param = locale === "en_US" ? "default" : locale;

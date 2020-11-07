@@ -12,4 +12,5 @@ module.exports = {
     ADD_ORDER: "add_order",
     CCP: "ccp",
     BMOB: "baridimob",
+    CANCEL_ORDER: "add_order",
 }
