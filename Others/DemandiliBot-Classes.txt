@@ -11,6 +11,7 @@
 		- id
 		- state (active, inactive)
 		- m.me link
+		- type
 		-> Credit
 			- platform (paysera, n2, dukaskopy, payoneer, paypal)
 			- balance
@@ -29,11 +30,14 @@
 	- Order
 		- id
 		- ssid (sender id)
+		- timestamp
 		- payment_method (CCP or BaridiMob)
 		- payment_confirmation (image)
 		- state (confirmation, pending, canceled, done)
 		- product_id
+		- type
 		- email
+		- price
 		-> OrderCredit
 			- balance
 		-> OrderGiftCard

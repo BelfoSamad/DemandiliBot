@@ -8,5 +8,8 @@ module.exports = {
 	TALK_TO_AGENT: "talk_to_agent",
 
     //Flow
-
+    EXPAND_PRODUCT: "expand_product",
+    ADD_ORDER: "add_order",
+    CCP: "ccp",
+    BMOB: "baridimob",
 }

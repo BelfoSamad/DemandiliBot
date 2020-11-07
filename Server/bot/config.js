@@ -13,6 +13,12 @@ const ENV_VARS = [
     "APP_URL"
 ];
 
+const IMGS = [
+    {"s": ""},
+    {"s": ""},
+    {"s": ""},
+]
+
 module.exports = {
     // Messenger Platform API
     mPlatformDomain: "https://graph.facebook.com",
@@ -47,4 +53,7 @@ module.exports = {
     },
 
     //TODO: Add Other Configurations
+    get getImages(platform) {
+        return IMGS[platform];
+    }
 };
